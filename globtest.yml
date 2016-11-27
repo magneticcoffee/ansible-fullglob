@@ -1,0 +1,33 @@
+---
+- name: list files
+  hosts: localhost
+  tasks:
+    - name: create test dirs
+      file: state=directory path={{ item }}
+      with_items:
+        - /tmp/foo
+        - /tmp/bar
+
+    - name: create test files
+      file: state=touch path={{ item }}
+      with_items:
+        - /tmp/foo/some.conf
+        - /tmp/bar/some.conf
+
+    - name: with absolute path
+      debug: var=item
+      with_fullglob: "/tmp/*/some.conf"
+    
+    - name: with relative path
+      debug: var=item
+      with_fullglob: "x/*/*.conf"
+
+
+    - name: with non-exisiting item
+      debug: var=item
+      with_fullglob: "x/*/narf.conf"
+    
+
+    - name: test filter
+      debug: var=item
+      with_items: "{{ 'x/*/*.conf' | fullglob }}"
