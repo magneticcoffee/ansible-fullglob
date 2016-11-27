@@ -3,7 +3,7 @@
 import glob
 
 def fullglob(path):
-    return [ g for g in glob.glob(path) ]
+    return glob.glob(path)
 
 
 class FilterModule(object):
